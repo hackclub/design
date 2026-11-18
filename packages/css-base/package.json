@@ -1,7 +1,7 @@
 {
   "name": "@hackclub/css-base",
   "description": "Hack Club's fonts, element defaults and utility classes as plain CSS",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "keywords": [
     "hack club",
     "css",

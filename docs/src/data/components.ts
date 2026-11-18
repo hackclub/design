@@ -623,8 +623,8 @@ export const components: ComponentDoc[] = [
       {
         layout: 'block',
         html: `<hc-code filename="index.html">
-  &lt;link rel="stylesheet" href="https://unpkg.com/@hackclub/theme@2/dist/hackclub.css" /&gt;
-  &lt;script type="module" src="https://unpkg.com/@hackclub/theme@2/dist/hackclub.js"&gt;&lt;/script&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/@hackclub/theme/dist/hackclub.css" /&gt;
+  &lt;script type="module" src="https://unpkg.com/@hackclub/theme/dist/hackclub.js"&gt;&lt;/script&gt;
 </hc-code>`
       }
     ],

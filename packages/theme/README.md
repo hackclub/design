@@ -11,11 +11,11 @@ styled after [hackclub.com](https://hackclub.com).
 ```html
 <link
   rel="stylesheet"
-  href="https://unpkg.com/@hackclub/theme@2/dist/hackclub.css"
+  href="https://unpkg.com/@hackclub/theme/dist/hackclub.css"
 />
 <script
   type="module"
-  src="https://unpkg.com/@hackclub/theme@2/dist/hackclub.js"
+  src="https://unpkg.com/@hackclub/theme/dist/hackclub.js"
 ></script>
 ```
 

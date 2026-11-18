@@ -1,7 +1,7 @@
 {
   "name": "@hackclub/tokens",
   "description": "Hack Club's design tokens as JS, JSON, CSS custom properties and a Tailwind CSS theme",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "keywords": [
     "hack club",
     "design tokens",
