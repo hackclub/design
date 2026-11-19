@@ -3,9 +3,11 @@ name: publish
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read
+  id-token: write
 
 concurrency:
   group: publish
@@ -17,12 +19,18 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: ${{ github.event.release.tag_name }}
+          ref: ${{ github.event.release.tag_name || github.sha }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - run: npm install --global npm@11
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version-file: package.json
 
       - name: Check release tag matches lerna.json version
+        if: github.event_name == 'release'
         env:
           TAG: ${{ github.event.release.tag_name }}
         run: |
@@ -32,6 +40,20 @@ jobs:
             exit 1
           fi
 
+      - name: Check package versions and repository URLs
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import { readFileSync } from 'node:fs';
+          const read = path => JSON.parse(readFileSync(path, 'utf8'));
+          const { version } = read('lerna.json');
+          for (const pkg of ['tokens', 'css-base', 'components', 'theme', 'meta']) {
+            const manifest = read(`packages/${pkg}/package.json`);
+            assert.equal(manifest.version, version, `${manifest.name}: version must match lerna.json`);
+            assert.equal(manifest.repository.url, 'git+https://github.com/hackclub/design.git');
+          }
+          JS
+
       # Also builds every package (root "prepare" script)
       - run: bun install --frozen-lockfile
       - run: bun run test
@@ -39,11 +61,17 @@ jobs:
 
       - name: Publish packages
         env:
-          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
+          DRY_RUN: ${{ github.event_name != 'release' }}
           PRERELEASE: ${{ github.event.release.prerelease }}
         run: |
           tag=latest
           if [ "$PRERELEASE" = "true" ]; then tag=next; fi
+
+          pack_dir="$RUNNER_TEMP/npm-packages"
+          mkdir -p "$pack_dir"
+          for pkg in tokens css-base components theme meta; do
+            (cd "packages/$pkg" && bun pm pack --filename "$pack_dir/$pkg.tgz")
+          done
 
           # Dependency order: dependencies before their dependents
           for pkg in tokens css-base components theme meta; do
@@ -52,11 +80,13 @@ jobs:
             version=$(node -p "require('./$dir/package.json').version")
 
             # Makes re-running a partially failed release safe
-            if npm view "$name@$version" version >/dev/null 2>&1; then
+            if [ "$DRY_RUN" != "true" ] && npm view "$name@$version" version --registry https://registry.npmjs.org >/dev/null 2>&1; then
               echo "$name@$version is already published, skipping"
               continue
             fi
 
-            echo "Publishing $name@$version with tag '$tag'"
-            (cd "$dir" && bun publish --access public --tag "$tag")
+            args=(--access public --tag "$tag" --registry https://registry.npmjs.org)
+            if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); fi
+            echo "Publishing $name@$version with tag '$tag' (dry run: $DRY_RUN)"
+            npm publish "$pack_dir/$pkg.tgz" "${args[@]}"
           done

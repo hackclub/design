@@ -9,12 +9,12 @@
     "tailwind"
   ],
   "homepage": "https://design.hackclub.com",
-  "bugs": "https://github.com/hackclub/theme/issues",
+  "bugs": "https://github.com/hackclub/design/issues",
   "license": "MIT",
   "author": "Hack Club <team@hackclub.com> (https://hackclub.com)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hackclub/theme.git",
+    "url": "git+https://github.com/hackclub/design.git",
     "directory": "packages/tokens"
   },
   "type": "module",

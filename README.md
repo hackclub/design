@@ -1,7 +1,7 @@
 # Hack Club design system
 
-[![format](https://github.com/hackclub/theme/workflows/format/badge.svg)](https://github.com/hackclub/theme/actions/workflows/format.yml)
-[![test](https://github.com/hackclub/theme/workflows/test/badge.svg)](https://github.com/hackclub/theme/actions/workflows/test.yml)
+[![format](https://github.com/hackclub/design/workflows/format/badge.svg)](https://github.com/hackclub/design/actions/workflows/format.yml)
+[![test](https://github.com/hackclub/design/workflows/test/badge.svg)](https://github.com/hackclub/design/actions/workflows/test.yml)
 
 The design system behind [Hack Club](https://hackclub.com)'s website, available as tokens, CSS and web components. Works with any framework, or none at all.
 
@@ -31,7 +31,7 @@ The design system behind [Hack Club](https://hackclub.com)'s website, available 
 | [`@hackclub/meta`](packages/meta)             | React component for generating social tags for `<head>`                      |
 
 > Looking for the Theme UI theme for the previous version of hackclub.com?
-> It's `@hackclub/theme@1` on npm, and in [this repo's history](https://github.com/hackclub/theme/tree/v1.2.1) before v2.
+> It's `@hackclub/theme@1` on npm, and in [this repo's history](https://github.com/hackclub/design/tree/v1.2.1) before v2.
 
 ## Development
 

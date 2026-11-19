@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hackclub/theme.git"
+    "url": "git+https://github.com/hackclub/design.git"
   },
   "packageManager": "bun@1.4.3",
   "engines": {
